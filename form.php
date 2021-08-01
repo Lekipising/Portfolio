@@ -18,5 +18,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // echo "Mail Sent. Thank you " . $name . ", we will contact you shortly.";
     // You can also use header('Location: thank_you.php'); to redirect to another page.
     // header('Location: index.html');
-    header("Refresh: 1; url=\'http://www.vinylpenguin.co.uk'");
+    header("Refresh: 1; url=\'https://lekipising.tech'");
 }
