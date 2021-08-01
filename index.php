@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 
@@ -282,7 +283,7 @@
         mail($to, $subject, $message, $headers);
         mail($from, $subject2, $message2, $headers2); // sends a copy of the message to the sender
 
-        echo "Mail Sent. Thank you " . $name . ", I will contact you shortly.";
+        echo '<div id="submitmessage">', "I have received your message 😊. I'll be in touch!", '</div>'; 
         // You can also use header('Location: thank_you.php'); to redirect to another page.
         // header('Location: index.html');
         // header("Refresh: 1; url=\'https://lekipising.tech'");
