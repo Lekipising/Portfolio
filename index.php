@@ -283,7 +283,7 @@
         mail($to, $subject, $message, $headers);
         mail($from, $subject2, $message2, $headers2); // sends a copy of the message to the sender
 
-        echo '<div id="submitmessage">', "I have received your message 😊. I'll be in touch!", '</div>'; 
+        echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>'; 
         // You can also use header('Location: thank_you.php'); to redirect to another page.
         // header('Location: index.html');
         // header("Refresh: 1; url=\'https://lekipising.tech'");
