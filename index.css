@@ -1,4 +1,5 @@
 #submitmessage {
+    box-sizing: unset;
     padding: 10px;
     background-color: #212529;
     color: #fed136;
