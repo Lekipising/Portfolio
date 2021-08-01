@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST['submit'])){
+if($_SERVER['REQUEST_METHOD']=="POST"){
     $to = "liplan@lekipising.tech"; // this is your Email address
     $from = $_POST['email']; // this is the sender's Email address
     $name = $_POST['name'];
