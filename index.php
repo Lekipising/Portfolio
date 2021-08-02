@@ -280,7 +280,10 @@
         $headers2 = "From:" . $to;
         mail($to, $subject, $message, $headers);
 
-        echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>'; 
+        echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>';
+        echo '<script type="text/javascript">',
+        'window.scrollTo(0,document.body.scrollHeight);',
+        '</script>'
     }
     ?>
 
