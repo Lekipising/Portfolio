@@ -268,7 +268,7 @@
     <?php
 
     if (isset($_POST['submit'])) {
-        $to = "l.liplan@alustudent.com"; // this is your Email address
+        $to = "contact@lekipising.tech"; // this is your Email address
         $from = $_POST['email']; // this is the sender's Email address
         $name = $_POST['name'];
         $email = $_POST['email'];
