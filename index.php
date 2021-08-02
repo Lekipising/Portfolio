@@ -270,11 +270,11 @@
 
     //Import PHPMailer class into the global namespace
     use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
 
     $msg = '';
     //Don't run this unless we're handling a form submission
     if (isset($_POST['submit'])) {
-        date_default_timezone_set('Etc/UTC');
 
         require '../vendor/autoload.php';
 
@@ -285,6 +285,15 @@
         $mail->isSMTP();
         $mail->Host = 'us2.smtp.mailhostbox.com';
         $mail->Port = 587;
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        //Set the hostname of the mail server
+        //Set the SMTP port number - likely to be 25, 465 or 587
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+        //Username to use for SMTP authentication
+        $mail->Username = 'liplan@lekipising.tech';
+        //Password to use for SMTP authentication
+        $mail->Password = '*hRfhz)3';
 
         //Use a fixed address in your own domain as the from address
         //**DO NOT** use the submitter's address here as it will be forgery
@@ -299,8 +308,8 @@
             'liplan' => 'liplan@lekipising.tech',
         ];
         //Validate address selection before trying to use it
-        if (array_key_exists('dept', $_POST) && array_key_exists($_POST['dept'], $addresses)) {
-            $mail->addAddress($addresses[$_POST['dept']]);
+        if (array_key_exists('liplan', $_POST) && array_key_exists($_POST['liplan'], $addresses)) {
+            $mail->addAddress($addresses[$_POST['liplan']]);
         } else {
             //Fall back to a fixed address if dept selection is invalid or missing
             $mail->addAddress('liplan@lekipising.tech');
@@ -331,7 +340,7 @@ EOT;
         }
     }
 
-    
+
     // if (isset($_POST['submit'])) {
     //     $to = "contact@lekipising.tech"; // this is your Email address
     //     $from = $_POST['email']; // this is the sender's Email address
