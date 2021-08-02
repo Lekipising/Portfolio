@@ -267,21 +267,86 @@
 
     <?php
 
-    if (isset($_POST['submit'])) {
-        $to = "contact@lekipising.tech"; // this is your Email address
-        $from = $_POST['email']; // this is the sender's Email address
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $message = $_POST['message'];
-        $subject = "Form submission";
-        $message = $name . " " . $email . " wrote the following:" . "\n\n" . $_POST['message'];
 
-        $headers = "From:" . $from;
-        $headers2 = "From:" . $to;
-        mail($to, $subject, $message, $headers);
+    //Import PHPMailer class into the global namespace
+    use PHPMailer\PHPMailer\PHPMailer;
 
-        echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>';
+    $msg = '';
+    //Don't run this unless we're handling a form submission
+    if (array_key_exists('email', $_POST)) {
+        date_default_timezone_set('Etc/UTC');
+
+        require '../vendor/autoload.php';
+
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer();
+        //Send using SMTP to localhost (faster and safer than using mail()) – requires a local mail server
+        //See other examples for how to use a remote server such as gmail
+        $mail->isSMTP();
+        $mail->Host = 'us2.smtp.mailhostbox.com';
+        $mail->Port = 587;
+
+        //Use a fixed address in your own domain as the from address
+        //**DO NOT** use the submitter's address here as it will be forgery
+        //and will cause your messages to fail SPF checks
+        $mail->setFrom('liplan@lekipising.tech', 'Contact Form');
+        //Choose who the message should be sent to
+        //You don't have to use a <select> like in this example, you can simply use a fixed address
+        //the important thing is *not* to trust an email address submitted from the form directly,
+        //as an attacker can substitute their own and try to use your form to send spam
+        $addresses = [
+            'contact' => 'contact@lekipising.tech',
+            'liplan' => 'liplan@lekipising.tech',
+        ];
+        //Validate address selection before trying to use it
+        if (array_key_exists('dept', $_POST) && array_key_exists($_POST['dept'], $addresses)) {
+            $mail->addAddress($addresses[$_POST['dept']]);
+        } else {
+            //Fall back to a fixed address if dept selection is invalid or missing
+            $mail->addAddress('liplan@lekipising.tech');
+        }
+        //Put the submitter's address in a reply-to header
+        //This will fail if the address provided is invalid,
+        //in which case we should ignore the whole request
+        if ($mail->addReplyTo($_POST['email'], $_POST['name'])) {
+            $mail->Subject = 'Contact Us Message - PortFolio';
+            //Keep it simple - don't use HTML
+            $mail->isHTML(false);
+            //Build a simple message body
+            $mail->Body = <<<EOT
+Email: {$_POST['email']}
+Name: {$_POST['name']}
+Message: {$_POST['message']}
+EOT;
+            //Send the message, check for errors
+            if (!$mail->send()) {
+                //The reason for failing to send will be in $mail->ErrorInfo
+                //but it's unsafe to display errors directly to users - process the error, log it on your server.
+                $msg = 'Sorry, something went wrong. Please try again later.';
+            } else {
+                $msg = 'Message sent! Thanks for contacting us.';
+            }
+        } else {
+            $msg = 'Invalid email address, message ignored.';
+        }
     }
+
+    
+    // if (isset($_POST['submit'])) {
+    //     $to = "contact@lekipising.tech"; // this is your Email address
+    //     $from = $_POST['email']; // this is the sender's Email address
+    //     $name = $_POST['name'];
+    //     $email = $_POST['email'];
+    //     $message = $_POST['message'];
+    //     $subject = "Form submission";
+    //     $message = $name . " " . $email . " wrote the following:" . "\n\n" . $_POST['message'];
+
+    //     $headers = "From:" . $from;
+    //     $headers2 = "From:" . $to;
+    //     mail($to, $subject, $message, $headers);
+
+    //     echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>';
+    // }
     ?>
 
     <script src="assets/js/jquery.min.js"></script>
