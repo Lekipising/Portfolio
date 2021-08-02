@@ -333,7 +333,7 @@ EOT;
                 //but it's unsafe to display errors directly to users - process the error, log it on your server.
                 $msg = 'Sorry, something went wrong. Please try again later.';
             } else {
-                $msg = 'Message sent! Thanks for contacting us.';
+                echo '<div id="submitmessage">', "I have received your message 😊.  I'll be in touch!", '</div>';
             }
         } else {
             $msg = 'Invalid email address, message ignored.';
